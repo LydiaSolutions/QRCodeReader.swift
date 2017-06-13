@@ -77,6 +77,8 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
 
   /// Block is executed when a metadata object is found.
   public var didFindCode: ((QRCodeReaderResult) -> Void)?
+    
+    public var OBJCDidFindCode: (([AnyHashable: Any]) -> Void)?
 
   /// Block is executed when a found metadata object string could not be decoded.
   public var didFailDecoding: ((Void) -> Void)?
@@ -348,6 +350,7 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
               let scannedResult = QRCodeReaderResult(value: sVal, metadataType:_readableCodeObject.type)
 
               DispatchQueue.main.async(execute: { [weak self] in
+                self?.OBJCDidFindCode?(["value": sVal,"metadataType":_readableCodeObject.type])
                 self?.didFindCode?(scannedResult)
               })
             }
