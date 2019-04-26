@@ -105,7 +105,7 @@ final class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
       addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[ttb(70)]", options: [], metrics: nil, views: views))
     }
 
-    for attribute in Array<NSLayoutAttribute>([.left, .top, .right, .bottom]) {
+    for attribute in Array<NSLayoutConstraint.Attribute>([.left, .top, .right, .bottom]) {
       addConstraint(NSLayoutConstraint(item: ov, attribute: attribute, relatedBy: .equal, toItem: cameraView, attribute: attribute, multiplier: 1, constant: 0))
     }
   }

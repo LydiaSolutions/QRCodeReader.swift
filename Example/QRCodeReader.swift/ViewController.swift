@@ -32,7 +32,7 @@ class ViewController: UIViewController, QRCodeReaderViewControllerDelegate {
   lazy var reader: QRCodeReader = QRCodeReader()
   lazy var readerVC: QRCodeReaderViewController = {
     let builder = QRCodeReaderViewControllerBuilder {
-      $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode], captureDevicePosition: .back)
+        $0.reader = QRCodeReader(metadataObjectTypes: [AVMetadataObject.ObjectType.qr.rawValue], captureDevicePosition: .back)
       $0.showTorchButton = true
     }
     
@@ -53,7 +53,7 @@ class ViewController: UIViewController, QRCodeReaderViewControllerDelegate {
 
         alert?.addAction(UIAlertAction(title: "Setting", style: .default, handler: { (_) in
           DispatchQueue.main.async {
-            if let settingsURL = URL(string: UIApplicationOpenSettingsURLString) {
+            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
               UIApplication.shared.openURL(settingsURL)
             }
           }
@@ -125,9 +125,9 @@ class ViewController: UIViewController, QRCodeReaderViewControllerDelegate {
   }
 
   func reader(_ reader: QRCodeReaderViewController, didSwitchCamera newCaptureDevice: AVCaptureDeviceInput) {
-    if let cameraName = newCaptureDevice.device.localizedName {
-      print("Switching capturing to: \(cameraName)")
-    }
+     let cameraName = newCaptureDevice.device.localizedName 
+    print("Switching capturing to: \(cameraName)")
+    
   }
 
   func readerDidCancel(_ reader: QRCodeReaderViewController) {

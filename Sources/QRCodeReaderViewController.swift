@@ -95,7 +95,7 @@ public class QRCodeReaderViewController: UIViewController {
 
     setupUIComponentsWithCancelButtonTitle(builder.cancelButtonTitle)
 
-    NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(orientationDidChange), name: UIDevice.orientationDidChangeNotification, object: nil)
   }
 
   required public init?(coder aDecoder: NSCoder) {
@@ -138,7 +138,7 @@ public class QRCodeReaderViewController: UIViewController {
 
   // MARK: - Managing the Orientation
 
-  func orientationDidChange(_ notification: Notification) {
+    @objc func orientationDidChange(_ notification: Notification) {
     readerView.view.setNeedsDisplay()
 
     if showOverlayView, let qrv = readerView.displayable as? QRCodeReaderView {
@@ -180,7 +180,7 @@ public class QRCodeReaderViewController: UIViewController {
 
     // Setup constraints
 
-    for attribute in [NSLayoutAttribute.left, NSLayoutAttribute.top, NSLayoutAttribute.right, NSLayoutAttribute.bottom] {
+    for attribute in [NSLayoutConstraint.Attribute.left, NSLayoutConstraint.Attribute.top, NSLayoutConstraint.Attribute.right, NSLayoutConstraint.Attribute.bottom] {
       view.addConstraint(NSLayoutConstraint(item: readerView.view, attribute: attribute, relatedBy: .equal, toItem: view, attribute: attribute, multiplier: 1, constant: 0))
     }
   }
@@ -199,7 +199,7 @@ public class QRCodeReaderViewController: UIViewController {
 
   // MARK: - Catching Button Events
 
-  func cancelAction(_ button: UIButton) {
+    @objc func cancelAction(_ button: UIButton) {
     codeReader.stopScanning()
 
     if let _completionBlock = completionBlock {
@@ -209,13 +209,13 @@ public class QRCodeReaderViewController: UIViewController {
     delegate?.readerDidCancel(self)
   }
 
-  func switchCameraAction(_ button: SwitchCameraButton) {
+    @objc func switchCameraAction(_ button: SwitchCameraButton) {
     if let newDevice = codeReader.switchDeviceInput() {
       delegate?.reader(self, didSwitchCamera: newDevice)
     }
   }
   
-  func toggleTorchAction(_ button: ToggleTorchButton) {
+    @objc func toggleTorchAction(_ button: ToggleTorchButton) {
     codeReader.toggleTorch()
   }
 }
