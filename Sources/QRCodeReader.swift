@@ -332,7 +332,7 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
     if metadataObjectTypes == nil || metadataObjectTypes?.count == 0 {
       // Check the QRCode metadata object type by default
         metadataObjectTypes = [AVMetadataObject.ObjectType.qr.rawValue]
-    }   
+    }
 
     if let metadataObjectTypes = metadataObjectTypes {
         for metadataObjectType in metadataObjectTypes {
