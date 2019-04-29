@@ -64,7 +64,7 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
   // MARK: - Managing the Properties
 
   /// CALayer that you use to display video as it is being captured by an input device.
-  public lazy var previewLayer: AVCaptureVideoPreviewLayer = {
+  @objc public lazy var previewLayer: AVCaptureVideoPreviewLayer = {
     return AVCaptureVideoPreviewLayer(session: self.session)
   }()
 
@@ -155,7 +155,7 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
 
   /// Switch between the back and the front camera.
   @discardableResult
-  public func switchDeviceInput() -> AVCaptureDeviceInput? {
+  @objc public func switchDeviceInput() -> AVCaptureDeviceInput? {
     if let _frontDeviceInput = frontDeviceInput {
       session.beginConfiguration()
 
@@ -179,14 +179,14 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
 
    *Notes: if `stopScanningWhenCodeIsFound` is sets to true (default behaviour), each time the scanner found a code it calls the `stopScanning` method.*
    */
-  public func startScanning() {
+  @objc public func startScanning() {
     if !session.isRunning {
       session.startRunning()
     }
   }
 
   /// Stops scanning the codes.
-  public func stopScanning() {
+  @objc public func stopScanning() {
     if session.isRunning {
       session.stopRunning()
     }
@@ -224,7 +224,7 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
   /**
    Toggles torch on the default device.
    */
-  public func toggleTorch() {
+  @objc public func toggleTorch() {
     do {
         try defaultDevice?.lockForConfiguration()
 
