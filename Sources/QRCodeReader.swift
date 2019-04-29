@@ -347,29 +347,29 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
 
   // MARK: - AVCaptureMetadataOutputObjects Delegate Methods
 
-  public func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
-    for current in metadataObjects {
-      if let _readableCodeObject = current as? AVMetadataMachineReadableCodeObject {
-        if _readableCodeObject.stringValue != nil {
-            if metadataObjectTypes.contains(_readableCodeObject.type.rawValue) {
-            if let sVal = _readableCodeObject.stringValue {
-              if stopScanningWhenCodeIsFound {
-                stopScanning()
-              }
-
-                let scannedResult = QRCodeReaderResult(value: sVal, metadataType:_readableCodeObject.type.rawValue)
-
-              DispatchQueue.main.async(execute: { [weak self] in
-                self?.OBJCDidFindCode?(["value": sVal,"metadataType":_readableCodeObject.type])
-                self?.didFindCode?(scannedResult)
-              })
+    public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        for current in metadataObjects {
+            if let _readableCodeObject = current as? AVMetadataMachineReadableCodeObject {
+                if _readableCodeObject.stringValue != nil {
+                    if metadataObjectTypes.contains(_readableCodeObject.type.rawValue) {
+                        if let sVal = _readableCodeObject.stringValue {
+                            if stopScanningWhenCodeIsFound {
+                                stopScanning()
+                            }
+                            
+                            let scannedResult = QRCodeReaderResult(value: sVal, metadataType:_readableCodeObject.type.rawValue)
+                            
+                            DispatchQueue.main.async(execute: { [weak self] in
+                                self?.OBJCDidFindCode?(["value": sVal,"metadataType":_readableCodeObject.type])
+                                self?.didFindCode?(scannedResult)
+                            })
+                        }
+                    }
+                }
+                else {
+                    didFailDecoding?()
+                }
             }
-          }
         }
-        else {
-            didFailDecoding?()
-        }
-      }
     }
-  }
 }
